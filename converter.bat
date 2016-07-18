@@ -24,35 +24,38 @@ SET OUTLOOKBIN="C:\Program Files\Microsoft Office\Office14\OUTLOOK.EXE"
 if not exist %TARGETEPUB% mkdir %TARGETEPUB%
 if not exist %TARGETMOBI% mkdir %TARGETMOBI%
 
-	IF NOT %ORIGINALFILEEXTENTSION%==.epub (
 
-		Echo "This is not an ePub file."
-
-	) ELSE ( 
-
-		Echo "This is an ePub file."
+    IF NOT %ORIGINALFILEEXTENTSION%==.epub (
+        Echo "This is not an ePub file."	
 		
-		START /wait "" %KINDLEGENBIN% "%SOURCEFILE%" -o "%DESTINATIONFILENAME%"
-		
-			IF EXIST %DESTINATIONFILE%  (
-			
+     ) ELSE ( 
+
+        Echo "This is an ePub file."
+        
+        START /wait "" %KINDLEGENBIN% "%SOURCEFILE%" -o "%DESTINATIONFILENAME%"
+        
+            IF EXIST "%DESTINATIONFILE%" (
+            
 				Echo "Mobi is created"
 				
-				MOVE /-Y "%DESTINATIONFILE%" "%DESTINATIONFILEINARCHIVE%"
-				MOVE /-Y "%SOURCEFILE%" "%TARGETEPUB%\%ORIGINALFILENAMEWITHEXT%"
+                MOVE /-Y "%DESTINATIONFILE%" "%DESTINATIONFILEINARCHIVE%"
+                MOVE /-Y "%SOURCEFILE%" "%TARGETEPUB%\%ORIGINALFILENAMEWITHEXT%"
 
-				
-				IF EXIST %DESTINATIONFILEINARCHIVE% (
-						Echo "Mobi is moved."		
-						ECHO %DESTINATIONFILEINARCHIVE%
-						START /wait "" %OUTLOOKBIN% /c ipm.note /m %MYKINDLEMAIL% /a "%DESTINATIONFILEINARCHIVE%"
-						
-						) ELSE ( 	
-							Echo "Mobi is NOT moved."
-						)
-			) ELSE ( 	
+                
+                IF EXIST "%DESTINATIONFILEINARCHIVE%" (
+
+						Echo "Mobi is moved."       
+                        START /wait "" %OUTLOOKBIN% /c ipm.note /m %MYKINDLEMAIL% /a "%DESTINATIONFILEINARCHIVE%"
+                        
+                        ) ELSE (
+                            Echo "Mobi is NOT moved."
+                        )				
+                				
+			) ELSE (  
+			
 				Echo "Mobi is NOT created"
 			)
-	)
+
+     )
 
 PAUSE
