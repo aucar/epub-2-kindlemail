@@ -26,8 +26,8 @@ if not exist %TARGETMOBI% mkdir %TARGETMOBI%
 
 
     IF NOT %ORIGINALFILEEXTENTSION%==.epub (
-        Echo "This is not an ePub file."	
-		
+        Echo "This is not an ePub file."    
+        
      ) ELSE ( 
 
         Echo "This is an ePub file."
@@ -36,25 +36,25 @@ if not exist %TARGETMOBI% mkdir %TARGETMOBI%
         
             IF EXIST "%DESTINATIONFILE%" (
             
-				Echo "Mobi is created"
-				
+                Echo "Mobi is created"
+                
                 MOVE /-Y "%DESTINATIONFILE%" "%DESTINATIONFILEINARCHIVE%"
                 MOVE /-Y "%SOURCEFILE%" "%TARGETEPUB%\%ORIGINALFILENAMEWITHEXT%"
 
                 
                 IF EXIST "%DESTINATIONFILEINARCHIVE%" (
 
-						Echo "Mobi is moved."       
+                        Echo "Mobi is moved."       
                         START /wait "" %OUTLOOKBIN% /c ipm.note /m %MYKINDLEMAIL% /a "%DESTINATIONFILEINARCHIVE%"
                         
                         ) ELSE (
                             Echo "Mobi is NOT moved."
-                        )				
-                				
-			) ELSE (  
-			
-				Echo "Mobi is NOT created"
-			)
+                        )               
+                                
+            ) ELSE (  
+            
+                Echo "Mobi is NOT created"
+            )
 
      )
 
